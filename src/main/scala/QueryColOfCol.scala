@@ -18,13 +18,13 @@ object QueryColOfCol {
           (p)-[]-(u: User),
           (u)-[]-(x: Project),
           (x)-[]-(y: User)
-          RETURN y
+          RETURN y.`First name`, y.`Last name`
         """).on("userId" -> userId)
 
 
       //Transform the resulting Stream[result] to a List[] Optional
       val skillList = result.apply().map(row =>
-        row[String]("u.`First name`") -> row[String]("u.`Last name`")
+        row[String]("y.`First name`") -> row[String]("y.`Last name`")
       ).toList
 
       // Print output
