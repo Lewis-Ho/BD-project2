@@ -9,6 +9,7 @@ object QueryCollabrorator {
     //flag for quit loop
     var exit = false
 
+
     do{
       println("What is the user id?")
       val userId = Console.readLine().toString
@@ -16,13 +17,24 @@ object QueryCollabrorator {
       println("What is the distance?")
       val distance = Console.readLine().toString
 
+//      val result = Cypher(
+//        """
+//        MATCH (i:Interest)-[r]-(User{`User id` : {userId}}),
+//        (i)-[m]-(u:User),
+//        (u)-[]-(o: Organization)
+//        RETURN u.`First name`, u.`Last name`, i.Interest, o.organization
+//        ORDER BY m.`Interest level`
+//        """).on("userId" -> userId)
+
       val result = Cypher(
         """
-        MATCH (i:Interest)-[r]-(User{`User id` : {userId}}),
-        (i)-[m]-(u:User)
-        RETURN u.`First name`, u.`Last name`, i.Interest
-        ORDER BY m.`Interest level`
-        """).on("userId" -> userId)
+          MATCH (Organization)-[r :inDistance]-(o: Organization),
+          (o)-[]-(u: User),
+          (u)-[x]-(s: Skill),
+          (u)-[w]-(i : Interest)
+          WHERE r.Distance <= {dis}
+          RETURN u.`First name`, u.`Last name` , r.`Distance`, s.Skill, x.`Skill level` , i.Interest, w.`Interest level`
+        """).on("userId" -> userId, "dis" -> distance)
 
       //Transform the resulting Stream[result] to a List[] Optional
       val resultList = result.apply().map(row =>
@@ -31,7 +43,6 @@ object QueryCollabrorator {
 
       // Print output
       System.out.println(resultList)
-
 
       // Input validation, ask if user need another query
       println("More query?   Y for more query / N to quit the program.")

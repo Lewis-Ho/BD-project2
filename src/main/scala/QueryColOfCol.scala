@@ -14,9 +14,13 @@ object QueryColOfCol {
 
       val result = Cypher(
         """
-          MATCH (u: User{`User id` : '3'})
-          return u.`First name`, u.`Last name`
+          MATCH (User{`User id` : {userId}})-[]-(p: Project),
+          (p)-[]-(u: User),
+          (u)-[]-(x: Project),
+          (x)-[]-(y: User)
+          RETURN y
         """).on("userId" -> userId)
+
 
       //Transform the resulting Stream[result] to a List[] Optional
       val skillList = result.apply().map(row =>
