@@ -1,0 +1,40 @@
+          MATCH (u: User)-[x: haveInterest]-(s: Interest)-[y: haveInterest]-(ui: User),
+                (u)-[]-(o: Organization)-[]-(ui: User)
+          WHERE u.`User id` = {userId}
+          RETURN ui.`First name`, ui.`Last name`, s.Interest, x.`Interest level`, y.`Interest level`, o.organization
+          ORDER BY x.`Interest level`
+
+
+MATCH (u: User)-[x: haveSkill]-(s: Skill)-[y: haveSkill]-(us: User),
+                (u)-[]-(o: Organization),
+                (us)-[]-(diffO: Organization),
+                (o)-[r :inDistance]-(diffO)
+          WHERE r.Distance <=15 AND u.`User id` = '4'
+          RETURN us.`First name`, us.`Last name`, s.Skill, x.`Skill level`,y.`Skill level`, o.organization
+          ORDER BY x.`Skill level`
+
+          MATCH (u: User)-[x: haveInterest]-(i: Interest)-[y: haveInterest]-(ui: User),
+            	  (u)-[]-(o: Organization),
+            		(ui)-[]-(diffO: Organization),
+                (o)-[r :inDistance]-(diffO)
+          WHERE r.Distance <=15 AND u.`User id` = '4'
+          RETURN ui.`First name`, ui.`Last name`, i.Interest, x.`Interest level`,y.`Interest level` , o.organization
+          ORDER BY y.`Skill level`
+
+
+          MATCH (u: User)-[x: haveInterest]-(i: Interest)-[y: haveInterest]-(ui: User),
+                (u)-[]-(o: Organization),
+                (ui)-[]-(diffO: Organization),
+                (o)-[r :inDistance]-(diffO)
+          WHERE r.Distance <=15 AND u.`User id` = '4'
+          RETURN ui.`First name`, ui.`Last name`, i.Interest, x.`Interest level`,y.`Interest level` , o.organization
+          ORDER BY y.`Skill level`
+
+
+=======================
+
+          MATCH (User{`User id` : {userId}})-[]-(p: Project),
+          (p)-[]-(u: User),
+          (u)-[]-(x: Project),
+          (x)-[]-(y: User)
+          RETURN y.`First name`, y.`Last name`

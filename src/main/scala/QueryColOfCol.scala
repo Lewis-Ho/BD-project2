@@ -1,3 +1,4 @@
+import org.anormcypher.CypherParser._
 import org.anormcypher._
 
 object QueryColOfCol {
@@ -12,24 +13,27 @@ object QueryColOfCol {
       println("What is the user id?")
       val userId = Console.readLine().toString
 
-      val result = Cypher(
+      val result:List[(String,String)] = Cypher(
         """
           MATCH (User{`User id` : {userId}})-[]-(p: Project),
           (p)-[]-(u: User),
           (u)-[]-(x: Project),
           (x)-[]-(y: User)
           RETURN y.`First name`, y.`Last name`
-        """).on("userId" -> userId)
+        """)
+        .on("userId" -> userId)
+        .as((str("y.`First name`") ~ str("y.`Last name`") )
+        .map(flatten).*)
 
-
-      //Transform the resulting Stream[result] to a List[] Optional
-      val skillList = result.apply().map(row =>
-        row[String]("y.`First name`") -> row[String]("y.`Last name`")
-      ).toList
-
-      // Print output
-      System.out.println(skillList)
-
+      println("\nAll trusted colleagues-of-colleagues who have one or more particular interests:  \n")
+      var listLen = 0
+      if ( result.length > 0 ){
+        for (a <- listLen to result.length - 1){
+          println("First Name: " +  result(a)._1  + "   Last Name: " + result(a)._2 )
+        }
+      } else {
+        println("Sorry, there is no trusted colleagues-of-colleagues who have one or more particular interests. ")
+      }
 
       // Input validation, ask if user need another query
       println("More query?   Y for more query / N to quit the program.")
