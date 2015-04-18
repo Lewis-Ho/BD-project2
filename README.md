@@ -18,7 +18,7 @@ Sample file was provided src/main/scala/. This app was built based on the file.
 
 # Requirement
 
-Scala 2.11, Neo4j, Intellij IDEA 14
+Scala 2.11, Neo4j, Intellij IDEA 14,
 Scala - Neo4j drive AnormCypher: http://www.anormcypher.org/
 
 # Usage
