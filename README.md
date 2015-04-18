@@ -1,57 +1,36 @@
-# BD-project2
+# Collaborator
 
-Project II: User Case
-collaborator.net is an application that enables users
+This project also served as the purpose of demonstrating the basic setup for scala - neo4j env on Intellij and the power of neo4j on describing nodes and relationships in between.
+Detail of query please look into the specific file on src/main/scala/
+
+Collaborator is an application that enables users
 to discover their own professional network, and
 identify other users with particular skill sets. Users
 work for organizations (governments, universities or
 companies), work on projects, and have one or
 more interests or skills that are weighted by their
-significances or levels. Based on this information,
-collaborator.net can
-- describe a user’s professional network by
-identifying other subscribers by a defined criteria
-- identify collaborators with specific skills who are
-directly or indirectly connected to the current user
-Project II: Requirement
-• Build a database to model collaborator.net
-• At least five entities for each entity-type or relations for each
-relation-type.
-• The database should at least answer the following questions in
-a quick response time:
-– For a university user, find all other individuals who share the same
-interests or skills as the user, and work in the same or different
-organization within 10 miles from the organization that the user
-works. The individuals should be ranked by the total weight of
-shared interests (or skills) with the user. In addition, the output
-should include the organization name, and the list of common
-interests (or skills).
-– For a user, find all trusted colleagues-of-colleagues who have one or
-more particular interests. The “trusted colleague” is defined as two
-persons have worked on the same project.
-• A Scala command-line client interface for database creation
-and query (other language e.g. Python or Java is acceptable)
-Project II: Requirement
-• Document (in print!)
-– Design diagram
-– All queries
-– Potential improvements (e.g. how to speed up
-query)
-• All source codes (sent by email)
-• Two-person team
-• Due: 11:59pm, April 12 (Just after Spring
-Break)
+significances or levels. 
 
-Here are more detailed specifications on the project 2.
+If you have trouble on setting up neo4j on scala, you can follow the build.sbt to setup yours project.
+Notice that the build have to be on Intellij. 
 
+Sample file was provided src/main/scala/. This app was built based on the file.
 
-1. You need to write three programs in one of the following languages: scala, java, python, or C++, although scale is prefered. The first program called DbLoader will load the data into a database. The second and third programs are called QueryCollabrator and QueryColOfCol, respectively.
+# Requirement
 
+Scala 2.11, Neo4j, Intellij IDEA 14
+Scala - Neo4j drive AnormCypher: http://www.anormcypher.org/
 
-2. The input for DbLoader is a fold that includes six files for the data. In project fold of the blackboard, there is a compressed sample data fold. All you input data should use the same file names, headers, and formats. Although only a few records in the sample data, I will test your programs using ~1 million records.
+# Usage
 
+Create Nodes and Relationships
+- run src/main/scala/DbLoader.scala to create data, will need to specify the path (Notice sample text file was include also)
 
-3. The input of QueryCollaborator is a user id and a distance. The outputs are a list of user names, their common interests (skills) shared with the query user, ranked the interest (skill) weights. See lecture notes for more details.
+Query users based on skill and distance of organization. (Or within specific distance)
+- run QueryCollabrorator.scala
 
+Query on colleagues-of-colleagues. (User's user's user)
+- run src/main/scala/QueryColOfCol.scala 
 
-4. The input of QueryColOfCol is a user id. The outputs are a list of user names. See lecture nodes for more details.
+# Note
+Please credit me if this repo helps you somehow :) 
